@@ -1,0 +1,23 @@
+<?php
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('facilities', function (Blueprint $table) {
+            $table->id();
+            $table->string('name'); // Kolam Renang, Area BBQ, dll.
+            $table->text('description')->nullable();
+            $table->string('icon')->nullable(); // Untuk icon di tampilan
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('bookings');
+    }
+};
