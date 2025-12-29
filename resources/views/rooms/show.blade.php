@@ -234,7 +234,17 @@
             <!-- Room Image -->
             <div class="room-image-gallery">
                 @if(isset($room->main_image) && $room->main_image)
-                    <img src="{{ asset($room->main_image) }}" alt="{{ $room->name }}">
+                    @php
+                        $img = $room->main_image;
+                        if (preg_match('/^https?:\/\//', $img)) {
+                            $url = $img;
+                        } elseif (preg_match('/^(storage\/|images\/|\/)/', $img)) {
+                            $url = asset($img);
+                        } else {
+                            $url = asset('storage/' . $img);
+                        }
+                    @endphp
+                    <img src="{{ $url }}" alt="{{ $room->name }}">
                 @else
                     <div style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%); height: 400px; display: flex; align-items: center; justify-content: center;">
                         <i class="fas fa-image" style="font-size: 5rem; color: white; opacity: 0.5;"></i>

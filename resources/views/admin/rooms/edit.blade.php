@@ -14,7 +14,7 @@
                         <div class="alert alert-danger">{{ $errors->first() }}</div>
                     @endif
 
-                    <form method="POST" action="{{ route('admin.rooms.update', $room) }}">
+                    <form method="POST" action="{{ route('admin.rooms.update', $room) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
@@ -34,6 +34,32 @@
                                 <label class="form-label">Capacity</label>
                                 <input type="number" name="capacity" class="form-control" value="{{ old('capacity', $room->capacity) }}">
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Quantity</label>
+                                <input type="number" name="quantity" class="form-control" value="{{ old('quantity', $room->quantity ?? 1) }}" min="1">
+                            </div>
+                            <div class="col-md-6 mb-3"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Main Image</label>
+                            @if($room->main_image)
+                                @php
+                                    $img = $room->main_image;
+                                    if (preg_match('/^https?:\/\//', $img)) {
+                                        $url = $img;
+                                    } elseif (preg_match('/^(storage\/|images\/|\/)/', $img)) {
+                                        $url = asset($img);
+                                    } else {
+                                        $url = asset('storage/' . $img);
+                                    }
+                                @endphp
+                                <div class="mb-2">
+                                    <img src="{{ $url }}" alt="main" class="img-thumbnail" style="max-width:200px">
+                                </div>
+                            @endif
+                            <input type="file" name="main_image" class="form-control" accept="image/png,image/jpeg,image/jpg,image/gif,image/webp,image/svg+xml">
                         </div>
                         <div class="d-flex gap-2">
                             <button type="submit" class="btn btn-primary">Update</button>

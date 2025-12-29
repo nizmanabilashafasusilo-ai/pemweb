@@ -12,8 +12,10 @@ class Room extends Model
     protected $table = 'rooms'; // Pastikan nama tabel benar
     
     protected $fillable = [
+        'slug',
         'name',
         'description',
+        'quantity',
         'price',
         'capacity',
         'price_per_night',

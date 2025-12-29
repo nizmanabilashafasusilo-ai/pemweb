@@ -734,6 +734,24 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
         }
     </style>
+    <!-- Responsive adjustments -->
+    <style>
+        @media (max-width: 992px) {
+            .hero-section { padding: 80px 0; min-height: 420px; }
+            .hero-content h1 { font-size: 2.2rem; }
+            .hero-content p { font-size: 1rem; }
+            .featured-section { padding: 40px 0; }
+        }
+
+        @media (max-width: 576px) {
+            .hero-section { padding: 60px 0; min-height: 320px; }
+            .hero-content h1 { font-size: 1.6rem; }
+            .btn-primary { padding: 10px 20px; }
+            .section-title h2 { font-size: 1.6rem; }
+            .room-card { margin-bottom: 18px; }
+            .room-image { aspect-ratio: 4 / 3; }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use App\Models\Room;
 
 class AdminRoomController extends Controller
@@ -28,7 +30,40 @@ class AdminRoomController extends Controller
                 'description' => 'nullable|string',
                 'price' => 'nullable|numeric',
                 'capacity' => 'nullable|integer',
+                'quantity' => 'nullable|integer',
+                'main_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
             ]);
+
+
+            if ($request->hasFile('main_image')) {
+                $data['main_image'] = $request->file('main_image')->store('rooms', 'public');
+            }
+
+            // Map form fields to actual DB columns
+            if (isset($data['price'])) {
+                $data['price_per_night'] = $data['price'];
+                unset($data['price']);
+            }
+            if (isset($data['capacity'])) {
+                $data['max_guests'] = $data['capacity'];
+                unset($data['capacity']);
+            }
+
+            // Ensure quantity has a value (DB requires it)
+            if (!isset($data['quantity']) || $data['quantity'] === null) {
+                $data['quantity'] = 1;
+            }
+
+            // Generate unique slug from name for DB (slug column required)
+            if (isset($data['name'])) {
+                $base = Str::slug($data['name']);
+                $slug = $base;
+                $i = 1;
+                while (Room::where('slug', $slug)->exists()) {
+                    $slug = $base . '-' . $i++;
+                }
+                $data['slug'] = $slug;
+            }
 
             $room = Room::create($data);
 
@@ -53,16 +88,45 @@ class AdminRoomController extends Controller
                 'description' => 'nullable|string',
                 'price' => 'nullable|numeric',
                 'capacity' => 'nullable|integer',
+                'main_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
             ]);
 
+            if ($request->hasFile('main_image')) {
+                // delete old image if exists
+                if ($room->main_image) {
+                    Storage::disk('public')->delete($room->main_image);
+                }
+                $data['main_image'] = $request->file('main_image')->store('rooms', 'public');
+            }
+            // Map form fields to actual DB columns for update
+            if (isset($data['price'])) {
+                $data['price_per_night'] = $data['price'];
+                unset($data['price']);
+            }
+            if (isset($data['capacity'])) {
+                $data['max_guests'] = $data['capacity'];
+                unset($data['capacity']);
+            }
+
+            // Update slug if name changed (ensure unique, ignore current record)
+            if (isset($data['name'])) {
+                $base = Str::slug($data['name']);
+                $slug = $base;
+                $i = 1;
+                while (Room::where('slug', $slug)->where('id', '<>', $room->id)->exists()) {
+                    $slug = $base . '-' . $i++;
+                }
+                $data['slug'] = $slug;
+            }
+
             $room->update($data);
-            return Redirect::route('admin.rooms.index')->with('success', 'Kamar diperbarui.');
+            return redirect()->route('admin.rooms.index')->with('success', 'Kamar diperbarui.');
         }
 
         public function destroy(Room $room)
         {
             $room->delete();
-            return Redirect::route('admin.rooms.index')->with('success', 'Kamar dihapus.');
+            return redirect()->route('admin.rooms.index')->with('success', 'Kamar dihapus.');
         }
     // ... metode CRUD lainnya
     

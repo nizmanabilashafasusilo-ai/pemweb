@@ -12,7 +12,7 @@
                         <div class="alert alert-danger">{{ $errors->first() }}</div>
                     @endif
 
-                    <form method="POST" action="{{ route('admin.rooms.store') }}">
+                    <form method="POST" action="{{ route('admin.rooms.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">Name</label>
@@ -31,6 +31,10 @@
                                 <label class="form-label">Capacity</label>
                                 <input type="number" name="capacity" class="form-control" value="{{ old('capacity') }}">
                             </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Main Image</label>
+                            <input type="file" name="main_image" class="form-control" accept="image/png,image/jpeg,image/jpg,image/gif,image/webp,image/svg+xml">
                         </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Create</button>

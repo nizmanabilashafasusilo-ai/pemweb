@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Booking;
-use Illuminate\Support\Facades\Redirect;
+// using helper redirect() instead of Redirect facade
 
 class AdminBookingController extends Controller
 {
@@ -30,7 +30,7 @@ class AdminBookingController extends Controller
         if ($action === 'cancel') {
             $booking->status = 'cancelled';
             $booking->save();
-            return Redirect::route('admin.bookings.index')->with('success', 'Booking dibatalkan.');
+            return redirect()->route('admin.bookings.index')->with('success', 'Booking dibatalkan.');
         }
 
         if ($action === 'reschedule') {
@@ -43,9 +43,9 @@ class AdminBookingController extends Controller
             $booking->check_out_date = $data['check_out_date'];
             $booking->status = 'rescheduled';
             $booking->save();
-            return Redirect::route('admin.bookings.show', $booking)->with('success', 'Booking berhasil dijadwal ulang.');
+            return redirect()->route('admin.bookings.show', $booking)->with('success', 'Booking berhasil dijadwal ulang.');
         }
 
-        return Redirect::back()->withErrors(['action' => 'Aksi tidak dikenali']);
+        return redirect()->back()->withErrors(['action' => 'Aksi tidak dikenali']);
     }
 }

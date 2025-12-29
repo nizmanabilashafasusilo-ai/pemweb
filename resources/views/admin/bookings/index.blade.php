@@ -16,7 +16,7 @@
                         <th>Check-in</th>
                         <th>Check-out</th>
                         <th>Status</th>
-                        <th>Actions</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

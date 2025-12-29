@@ -21,7 +21,7 @@
                         <th>Name</th>
                         <th>Phone</th>
                         <th>Bookings</th>
-                        <th>Actions</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

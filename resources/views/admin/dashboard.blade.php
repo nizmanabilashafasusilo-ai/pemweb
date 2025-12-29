@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="col-12 col-lg-4">
-                <div class="kanban mb-3">
+                <div class="kanban mb-1">
                     <h6>Customer orders</h6>
             <ul class="list-unstyled mb-0">
                 @forelse($recentOrders ?? [] as $o)
@@ -60,11 +60,11 @@
     </div>
 </div>
 
-        <div class="row g-3 mt-3">
+        <div class="row g-3 mt-15">
     <div class="col-12 col-lg-8">
         <div class="kanban">
             <h6>Overall User Activity</h6>
-            <canvas id="activityChart" height="120"></canvas>
+            <canvas id="activityChart" height="140"></canvas>
         </div>
     </div>
 </div>

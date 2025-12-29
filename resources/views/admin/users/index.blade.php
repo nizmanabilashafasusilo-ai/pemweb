@@ -25,11 +25,28 @@
                                 <td>{{ $u->role ?? 'user' }}</td>
                                 <td>{{ $u->created_at->format('d M Y') }}</td>
                                 <td class="text-end">
-                                    <a href="{{ route('admin.users.edit', $u) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
-                                    <form action="{{ route('admin.users.destroy', $u) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete user?')">
-                                        @csrf @method('DELETE')
-                                        <button class="btn btn-sm btn-danger">Delete</button>
-                                    </form>
+                                    <div class="d-none d-md-flex gap-2 justify-content-end">
+                                        <a href="{{ route('admin.users.edit', $u) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                        <form action="{{ route('admin.users.destroy', $u) }}" method="POST" class="m-0" onsubmit="return confirm('Delete user?')">
+                                            @csrf @method('DELETE')
+                                            <button class="btn btn-sm btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+
+                                    <div class="d-inline-block d-md-none">
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="actionsDropdownUser{{ $u->id }}" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="actionsDropdownUser{{ $u->id }}">
+                                                <li><a class="dropdown-item" href="{{ route('admin.users.edit', $u) }}">Edit</a></li>
+                                                <li>
+                                                    <form action="{{ route('admin.users.destroy', $u) }}" method="POST" class="m-0 px-3 py-1">
+                                                        @csrf @method('DELETE')
+                                                        <button type="submit" class="btn btn-sm btn-link text-danger p-0" onclick="return confirm('Delete user?')">Delete</button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

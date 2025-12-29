@@ -17,6 +17,22 @@
                         <div class="form-control-plaintext">{{ $room->name }}</div>
                     </div>
 
+                    @if($room->main_image)
+                        @php
+                            $img = $room->main_image;
+                            if (preg_match('/^https?:\/\//', $img)) {
+                                $url = $img;
+                            } elseif (preg_match('/^(storage\/|images\/|\/)/', $img)) {
+                                $url = asset($img);
+                            } else {
+                                $url = asset('storage/' . $img);
+                            }
+                        @endphp
+                        <div class="mb-3 text-center">
+                            <img src="{{ $url }}" alt="main" class="img-fluid" style="max-height:320px;object-fit:cover;border-radius:8px">
+                        </div>
+                    @endif
+
                     <div class="mb-3">
                         <label class="form-label">Description</label>
                         <div class="form-control-plaintext">{!! nl2br(e($room->description)) !!}</div>

@@ -64,6 +64,8 @@
         box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         height: 100%;
         background: white;
+        display: flex;
+        flex-direction: column;
     }
     
     .room-card:hover {
@@ -71,21 +73,24 @@
         box-shadow: 0 15px 40px rgba(0,0,0,0.2);
     }
     
+    /* Uniform square thumbnails */
     .room-image {
         position: relative;
-        height: 280px;
+        width: 100%;
+        aspect-ratio: 1 / 1; /* square */
         overflow: hidden;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         display: flex;
         align-items: center;
         justify-content: center;
     }
-    
+
     .room-image img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         transition: transform 0.5s ease;
+        display: block;
     }
     
     .room-card:hover .room-image img {
@@ -120,7 +125,8 @@
     }
     
     .room-content {
-        padding: 30px 25px;
+        padding: 20px 18px;
+        flex: 1; /* make content area grow so cards align */
     }
     
     .room-content h3 {
@@ -170,18 +176,32 @@
     .room-price {
         display: flex;
         flex-direction: column;
+        align-items: flex-start;
     }
     
     .room-price .amount {
-        font-size: 1.8rem;
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+    }
+
+    .room-price .amount .currency {
+        font-size: 0.95rem;
+        color: #2c3e50;
+        font-weight: 600;
+    }
+
+    .room-price .amount .value {
+        font-size: 1.6rem;
         font-weight: 700;
         color: #2c3e50;
         font-family: 'Playfair Display', serif;
     }
-    
+
     .room-price .period {
         font-size: 0.85rem;
         color: #7f8c8d;
+        margin-top: 2px;
     }
     
     .btn-view-details {
@@ -279,7 +299,17 @@
                 <div class="col-md-6 col-lg-4 mb-4">
                     <div class="card room-card">
                         <div class="room-image">
-                            <img src="{{ asset($room->main_image ?? 'placeholder.png') }}" alt="{{ $room->name }}">
+                            @php
+                                $img = $room->main_image ?? 'images/rooms/placeholder.jpg';
+                                if (preg_match('/^https?:\/\//', $img)) {
+                                    $url = $img;
+                                } elseif (preg_match('/^(storage\/|images\/|\/)/', $img)) {
+                                    $url = asset($img);
+                                } else {
+                                    $url = asset('storage/' . $img);
+                                }
+                            @endphp
+                            <img src="{{ $url }}" alt="{{ $room->name }}">
 
                             <div class="room-badges">
                                 @php $rp = $room->price_per_night ?? $room->price ?? 0; @endphp
@@ -312,8 +342,8 @@
                             
                             <div class="room-footer">
                                 <div class="room-price">
-                                    <span class="amount">Rp{{ number_format($room->price_per_night ?? $room->price ?? 0, 0, ',', '.') }}</span>
-                                    <span class="period">/malam</span>
+                                    <span class="amount"><span class="currency">Rp</span>&nbsp;<span class="value">{{ number_format($room->price_per_night ?? $room->price ?? 0, 0, ',', '.') }}</span></span>
+                                    <span class="period">/ malam</span>
                                 </div>
                                 <a href="{{ route('rooms.show', $room->id) }}" class="btn-view-details">
                                     Detail

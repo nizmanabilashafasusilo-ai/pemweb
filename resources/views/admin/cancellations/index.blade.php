@@ -16,7 +16,7 @@
                                 <th>Email</th>
                                 <th>Requested</th>
                                 <th>Status</th>
-                                <th>Actions</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>

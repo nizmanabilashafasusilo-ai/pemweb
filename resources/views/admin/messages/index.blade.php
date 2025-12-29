@@ -20,11 +20,28 @@
                                     <td>{{ $m->subject }}</td>
                                     <td class="text-truncate" style="max-width:280px;">{{ Illuminate\Support\Str::limit($m->message, 120) }}</td>
                                     <td class="text-end">
-                                        <a href="{{ route('admin.messages.show', $m) }}" class="btn btn-sm btn-outline-primary">View</a>
-                                        <form action="{{ route('admin.messages.destroy', $m) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete message?')">
-                                            @csrf @method('DELETE')
-                                            <button class="btn btn-sm btn-danger">Delete</button>
-                                        </form>
+                                        <div class="d-none d-md-flex gap-2 justify-content-end">
+                                            <a href="{{ route('admin.messages.show', $m) }}" class="btn btn-sm btn-outline-primary">View</a>
+                                            <form action="{{ route('admin.messages.destroy', $m) }}" method="POST" class="m-0" onsubmit="return confirm('Delete message?')">
+                                                @csrf @method('DELETE')
+                                                <button class="btn btn-sm btn-danger">Delete</button>
+                                            </form>
+                                        </div>
+
+                                        <div class="d-inline-block d-md-none">
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="actionsDropdownMessage{{ $m->id }}" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="actionsDropdownMessage{{ $m->id }}">
+                                                    <li><a class="dropdown-item" href="{{ route('admin.messages.show', $m) }}">View</a></li>
+                                                    <li>
+                                                        <form action="{{ route('admin.messages.destroy', $m) }}" method="POST" class="m-0 px-3 py-1">
+                                                            @csrf @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm btn-link text-danger p-0" onclick="return confirm('Delete message?')">Delete</button>
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

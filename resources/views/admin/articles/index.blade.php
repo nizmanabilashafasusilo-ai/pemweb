@@ -17,7 +17,7 @@
                                 <th>#</th>
                                 <th>Title</th>
                                 <th>Published</th>
-                                <th>Actions</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -37,12 +37,30 @@
                                     @endphp
                                     <td><small class="text-muted">{{ $pub ? $pub->format('d M Y') : '' }}</small></td>
                                     <td class="text-end">
-                                        <a href="{{ route('blog.show', $a->slug) }}" class="btn btn-sm btn-outline-secondary">View</a>
-                                        <a href="{{ route('admin.articles.edit', $a) }}" class="btn btn-sm btn-outline-primary">Edit</a>
-                                        <form action="{{ route('admin.articles.destroy', $a) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete article?')">
-                                            @csrf @method('DELETE')
-                                            <button class="btn btn-sm btn-danger">Delete</button>
-                                        </form>
+                                        <div class="d-none d-md-flex gap-2 justify-content-end">
+                                            <a href="{{ route('blog.show', $a->slug) }}" class="btn btn-sm btn-outline-secondary">View</a>
+                                            <a href="{{ route('admin.articles.edit', $a) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                            <form action="{{ route('admin.articles.destroy', $a) }}" method="POST" class="m-0" onsubmit="return confirm('Delete article?')">
+                                                @csrf @method('DELETE')
+                                                <button class="btn btn-sm btn-danger">Delete</button>
+                                            </form>
+                                        </div>
+
+                                        <div class="d-inline-block d-md-none">
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="actionsDropdownArticle{{ $a->id }}" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="actionsDropdownArticle{{ $a->id }}">
+                                                    <li><a class="dropdown-item" href="{{ route('blog.show', $a->slug) }}">View</a></li>
+                                                    <li><a class="dropdown-item" href="{{ route('admin.articles.edit', $a) }}">Edit</a></li>
+                                                    <li>
+                                                        <form action="{{ route('admin.articles.destroy', $a) }}" method="POST" class="m-0 px-3 py-1">
+                                                            @csrf @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm btn-link text-danger p-0" onclick="return confirm('Delete article?')">Delete</button>
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
