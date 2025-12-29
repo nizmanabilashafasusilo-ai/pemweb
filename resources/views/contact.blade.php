@@ -11,7 +11,7 @@
 </section>
 
 <!-- Contact Content -->
-<section style="padding: 60px 0; background: #f8f9fa;">
+<section style="padding: 60px 0; background: linear-gradient(135deg, rgba(203, 208, 210, 0.8) 0%, rgba(15, 61, 82, 0.8) 100%);">
     <div class="container">
         <div class="row">
             <!-- Contact Form -->
@@ -21,7 +21,7 @@
                         <i class="fas fa-envelope"></i> Kirim Pesan
                     </h2>
                     
-                    <form id="contactForm" method="POST" action="#">
+                    <form id="contactForm" method="POST" action="{{ route('contact.send') }}">
                         @csrf
                         <div class="row mb-3">
                             <div class="col-md-6">
@@ -64,7 +64,7 @@
                         </div>
 
                         <button type="submit" id="cf_submit" class="btn btn-primary btn-lg" style="width: 100%; background: var(--secondary-color);">
-                            <i class="fas fa-envelope"></i> Kirim Pesan via Email
+                            <i class="fas fa-envelope"></i> Kirim
                         </button>
                     </form>
                 </div>
@@ -78,8 +78,8 @@
                         <i class="fas fa-map-marker-alt" style="color: var(--secondary-color);"></i> Alamat
                     </h4>
                     <p style="color: #555; line-height: 1.8; margin: 0;">
-                        Pantai Golden, Jl. Pantai Indah No. 123<br>
-                        Kabupaten Bekasi, Jawa Barat 17910<br>
+                        Pantai Lalung, Tegalsari, Lalung,<br>
+                        Karanganyar, Karanganyar Regency, Central Java<br>
                         Indonesia
                     </p>
                 </div>
@@ -146,34 +146,33 @@
 @endsection
 
 @push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-    const form = document.getElementById('contactForm');
-    if (!form) return;
-
-    // Send via mailto to the configured email address
-    const targetEmail = 'nizmanabilashafasusilo@gmail.com';
-
-    form.addEventListener('submit', function(e){
-        e.preventDefault();
-
-        const name = document.getElementById('cf_name').value.trim();
-        const email = document.getElementById('cf_email').value.trim();
-        const phone = document.getElementById('cf_phone').value.trim();
-        const subject = document.getElementById('cf_subject').value.trim() || 'Pertanyaan dari website';
-        const message = document.getElementById('cf_message').value.trim();
-
-        let body = '';
-        if (name) body += 'Nama: ' + name + '\n';
-        if (email) body += 'Email: ' + email + '\n';
-        if (phone) body += 'Nomor: ' + phone + '\n';
-        body += '\nPesan:\n' + message + '\n';
-
-        const mailto = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-        // Open default mail client
-        window.location.href = mailto;
-    });
-});
-</script>
+    <script>
+    // contact form now posts to server; no client mailto handling
+    </script>
+    @if(session('message_sent'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function(){
+                var msg = {!! json_encode(session('message_sent')) !!};
+                var wrapper = document.createElement('div');
+                wrapper.innerHTML = `
+                <div class="modal fade" id="sentModal" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Pesan Terkirim</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">${msg}</div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" data-bs-dismiss="modal">Tutup</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+                document.body.appendChild(wrapper);
+                var modalEl = document.getElementById('sentModal');
+                if (modalEl) new bootstrap.Modal(modalEl).show();
+            });
+        </script>
+    @endif
 @endpush

@@ -3,6 +3,11 @@
 @section('title', 'Login')
 
 @section('content')
+<style>
+    body {
+        background: linear-gradient(135deg, rgba(203, 208, 210, 0.8) 0%, rgba(15, 61, 82, 0.8) 100%);
+    }
+</style>
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-lg-5 col-md-7">

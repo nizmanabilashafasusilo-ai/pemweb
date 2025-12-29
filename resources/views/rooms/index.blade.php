@@ -4,11 +4,16 @@
 
 <style>
     .hero-section {
-        position: relative;
-        height: 60vh;
-        background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920') center/cover;
+        background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("images/backgrounds/hero-room-bg.jpeg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: white;
+        padding: 120px 0;
+        min-height: 600px;
         display: flex;
         align-items: center;
+        position: relative;
         justify-content: center;
         color: white;
         text-align: center;
@@ -23,10 +28,10 @@
     }
     
     .hero-content .subtitle {
-        font-size: 1rem;
+        font-size: 2rem;
         text-transform: uppercase;
         letter-spacing: 3px;
-        color: #00bcd4;
+        color: #15dffeff;
         margin-bottom: 0.5rem;
     }
     
@@ -35,12 +40,12 @@
         margin-bottom: 50px;
         padding-top: 80px;
     }
-    
+
     .section-header .subtitle {
-        color: #d4a574;
+        color: #e18d33ff;
         text-transform: uppercase;
         letter-spacing: 2px;
-        font-size: 0.9rem;
+        font-size: 1rem;
         margin-bottom: 10px;
     }
     
@@ -200,11 +205,10 @@
     }
     
     .cta-section {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--secondary-color) 0%, #d1850aff 100%);
         padding: 80px 0;
         color: white;
         text-align: center;
-        margin-top: 80px;
     }
     
     .cta-section h2 {
@@ -221,7 +225,7 @@
     
     .btn-cta {
         background: white;
-        color: #667eea;
+        color: #010208ff;
         padding: 15px 40px;
         border-radius: 50px;
         text-decoration: none;
@@ -235,7 +239,6 @@
     .btn-cta:hover {
         transform: translateY(-3px);
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        color: #667eea;
     }
     
     .empty-state {
@@ -264,7 +267,7 @@
 </section>
 
 <!-- Rooms Section -->
-<section style="background: #f8f9fa; padding-bottom: 80px;">
+<section style="background: linear-gradient(135deg, rgba(203, 208, 210, 0.8) 0%, rgba(15, 61, 82, 0.8) 100%);">
     <div class="container">
         <div class="section-header">
             <div class="subtitle">REST, RELAX, RECHARGE</div>
@@ -276,7 +279,7 @@
                 <div class="col-md-6 col-lg-4 mb-4">
                     <div class="card room-card">
                         <div class="room-image">
-                            <img src="{{ asset('images/rooms/' . ($room->main_image ?? 'placeholder.png')) }}" alt="{{ $room->name }}">
+                            <img src="{{ asset($room->main_image ?? 'placeholder.png') }}" alt="{{ $room->name }}">
 
                             <div class="room-badges">
                                 @php $rp = $room->price_per_night ?? $room->price ?? 0; @endphp

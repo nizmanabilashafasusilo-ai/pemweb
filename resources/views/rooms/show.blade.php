@@ -3,6 +3,7 @@
 @section('content')
 
 <style>
+    html, body { margin: 0; padding: 0; background: linear-gradient(135deg, rgba(203, 208, 210, 0.8) 0%, rgba(15, 61, 82, 0.8) 100%); }
     .booking-form-box {
         background: linear-gradient(135deg, var(--primary-color) 0%, #0f3d52 100%);
         color: white;
@@ -52,7 +53,7 @@
     }
     
     .room-detail-header {
-        background: linear-gradient(135deg, #1a5f7a 0%, #0f3d52 100%);
+        background: linear-gradient(135deg, #1a5f7a 0%, #27769aff 100%);
         color: white;
         padding: 60px 0;
         margin-bottom: 40px;
@@ -110,6 +111,112 @@
         margin-right: 12px;
         font-size: 1.2rem;
     }
+    .room-card {
+        border: none;
+        border-radius: 0;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        height: 100%;
+        background: white;
+        display: flex;
+        flex-direction: column;
+    }
+    .room-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    }
+    .room-image {
+        position: relative;
+        height: 220px;
+        overflow: hidden;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .room-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    .room-card:hover .room-image img { transform: scale(1.05); }
+    .room-badges {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        display: flex;
+        justify-content: space-between;
+        z-index: 2;
+    }
+    .badge-item {
+        background: white;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .badge-luxury { 
+        background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); 
+        color: white; 
+    }
+    .room-content { 
+        padding: 22px;
+        flex: 1 1 auto; 
+    }
+    .room-content h3 { 
+        font-size: 1.4rem;
+        margin-bottom: 8px; 
+        color: #2c3e50; 
+        font-family: 'Playfair Display', serif; 
+    }
+    .room-content p { 
+        color: #7f8c8d; 
+        font-size: 0.95rem; 
+        line-height: 1.6; 
+        margin-bottom: 18px; 
+    }
+    .room-footer { 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        margin-top: 8px; 
+    }
+    .room-price { 
+        display: flex;
+        flex-direction: column; 
+    }
+    .room-price .amount { 
+        font-size: 1.4rem; 
+        font-weight: 700; 
+        color: #2c3e50; 
+        font-family: 'Playfair Display', serif; 
+    }
+    .room-price .period { 
+        font-size: 0.85rem; 
+        color: #7f8c8d; 
+    }
+    .btn-view-details { 
+        background: #00bcd4; 
+        color: white; 
+        padding: 8px 14px; 
+        border-radius: 6px; 
+        text-decoration: none; 
+        font-weight: 600; 
+        display: inline-flex; 
+        align-items: center; 
+        gap: 8px; 
+    }
+    .btn-view-details:hover { 
+        background: #0097a7; 
+        color: white; 
+    }
 </style>
 
 <!-- Header Section -->
@@ -127,7 +234,7 @@
             <!-- Room Image -->
             <div class="room-image-gallery">
                 @if(isset($room->main_image) && $room->main_image)
-                    <img src="{{ asset('storage/' . $room->main_image) }}" alt="{{ $room->name }}">
+                    <img src="{{ asset($room->main_image) }}" alt="{{ $room->name }}">
                 @else
                     <div style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%); height: 400px; display: flex; align-items: center; justify-content: center;">
                         <i class="fas fa-image" style="font-size: 5rem; color: white; opacity: 0.5;"></i>
@@ -192,7 +299,6 @@
         <!-- Booking Form -->
         <div class="col-lg-4">
             <div class="booking-form-box">
-                <h3>Pesan Kamar Ini</h3>
 
                 @if(session('error'))
                     <div style="background: rgba(231, 76, 60, 0.2); border-left: 4px solid #e74c3c; padding: 15px; border-radius: 5px; margin-bottom: 20px; color: white;">
@@ -205,50 +311,30 @@
                     </div>
                 @endif
 
-                <form action="{{ route('booking.store') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="room_id" value="{{ $room->id }}">
-
-                    <div class="form-group">
-                        <label for="check_in_date"><i class="fas fa-calendar-check"></i> Check-in</label>
-                        <input type="date" name="check_in_date" id="check_in_date" required value="{{ old('check_in_date') }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="check_out_date"><i class="fas fa-calendar-times"></i> Check-out</label>
-                        <input type="date" name="check_out_date" id="check_out_date" required value="{{ old('check_out_date') }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="number_of_guests"><i class="fas fa-users"></i> Jumlah Tamu</label>
-                        <input type="number" name="number_of_guests" id="number_of_guests" min="1" max="{{ $room->capacity ?? 4 }}" required value="{{ old('number_of_guests', 1) }}">
-                    </div>
-
-                    <hr style="border-color: rgba(255, 255, 255, 0.2); margin: 20px 0;">
-
-                    <div class="form-group">
-                        <label for="guest_name"><i class="fas fa-user"></i> Nama Lengkap</label>
-                        <input type="text" name="guest_name" id="guest_name" placeholder="Nama Anda" required value="{{ old('guest_name') }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="guest_email"><i class="fas fa-envelope"></i> Email</label>
-                        <input type="email" name="guest_email" id="guest_email" placeholder="Email Anda" required value="{{ old('guest_email') }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="guest_phone"><i class="fas fa-phone"></i> No. Telepon</label>
-                        <input type="tel" name="guest_phone" id="guest_phone" placeholder="Nomor Telepon" required value="{{ old('guest_phone') }}">
-                    </div>
-
-                    <button type="submit" style="width: 100%; padding: 15px; background: var(--secondary-color); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; margin-top: 20px;">
-                        <i class="fas fa-check"></i> Konfirmasi Pesanan
-                    </button>
-
-                    <p style="text-align: center; margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">
-                        <i class="fas fa-lock"></i> Data Anda aman dan terlindungi
-                    </p>
-                </form>
+                <div class="booking-form-box text-center">
+                    
+                <h3>Reservasi Kamar Ini</h3>
+                    <p style="opacity:0.9;">
+                        Pesan kamar dengan mudah melalui halaman reservasi.</p> 
+                        
+                        @auth
+                        
+                        <a href="{{ route('reservation.create', ['room' => $room->id]) }}"
+                        class="btn btn-light w-100 mt-3"
+                        style="font-weight:700;">
+                        <i class="fas fa-calendar-check"></i> Lanjutkan Reservasi
+                    </a>
+                    
+                    @else
+                    
+                    <p class="mt-3">
+                        
+                    Silakan <a href="{{ route('login') }}">login</a> atau
+                    <a href="{{ route('register') }}">daftar</a> untuk reservasi.</p>
+                    
+                    <a href="{{ route('login') }}" class="btn btn-light w-100 mt-2">Login</a>
+                    @endauth
+                </div>
             </div>
 
             <!-- Contact Info -->
@@ -268,7 +354,7 @@
 </div>
 
 <!-- Related Rooms -->
-<section style="padding: 60px 0; background: #f8f9fa; margin-top: 60px;">
+<section style="padding: 60px 0; background: transparent; margin-top: 0;">
     <div class="container">
         <h2 style="text-align: center; font-size: 2rem; color: var(--primary-color); margin-bottom: 40px;">
             <i class="fas fa-door-open"></i> Kamar Lainnya
@@ -277,23 +363,47 @@
             @php $otherRooms = \App\Models\Room::where('id', '!=', $room->id)->limit(3)->get(); @endphp
             @forelse($otherRooms as $otherRoom)
                 <div class="col-md-4 mb-4">
-                    <div class="room-card">
-                        <div class="room-image">
-                            @if(isset($otherRoom->main_image) && $otherRoom->main_image)
-                                <img src="{{ asset('storage/' . $otherRoom->main_image) }}" alt="{{ $otherRoom->name }}" style="width: 100%; height: 100%; object-fit: cover;">
-                            @else
-                                <i class="fas fa-door-open" style="font-size: 4rem; color: white; opacity: 0.8;"></i>
-                            @endif
-                        </div>
-                        <div class="room-content">
-                            <h3>{{ $otherRoom->name }}</h3>
-                            <p>{{ Str::limit($otherRoom->description ?? '', 80) }}</p>
-                            <div class="room-footer">
-                                <div class="price">Rp {{ number_format($otherRoom->price, 0, ',', '.') }}</div>
-                                <a href="{{ route('rooms.show', $otherRoom->id) }}" class="btn btn-sm btn-primary">Lihat</a>
+                        <div class="room-card">
+                            <div class="room-image">
+                                @if(isset($otherRoom->main_image) && $otherRoom->main_image)
+                                    <img src="{{ asset($otherRoom->main_image) }}" alt="{{ $otherRoom->name }}">
+                                @else
+                                    <i class="fas fa-door-open" style="font-size: 4rem; color: white; opacity: 0.8;"></i>
+                                @endif
+
+                                <div class="room-badges">
+                                    @php $orp = $otherRoom->price ?? 0; @endphp
+                                    <span class="badge-item @if($orp >= 900000) badge-luxury @endif">
+                                        @if($orp < 600000)
+                                            Economy
+                                        @elseif($orp < 900000)
+                                            Standard
+                                        @else
+                                            Luxury
+                                        @endif
+                                    </span>
+
+                                    <span class="badge-item">
+                                        <i class="fas fa-ruler"></i> {{ $otherRoom->size ?? '900 Sqft' }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="room-content">
+                                <h3>{{ $otherRoom->name }}</h3>
+                                <p>{{ Str::limit($otherRoom->description ?? '', 80) }}</p>
+                                <div class="room-footer">
+                                    <div class="room-price">
+                                        <span class="amount">Rp {{ number_format($otherRoom->price, 0, ',', '.') }}</span>
+                                        <span class="period">/malam</span>
+                                    </div>
+                                    <a href="{{ route('rooms.show', $otherRoom->id) }}" class="btn-view-details">
+                                        Lihat
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
                 </div>
             @empty
             @endforelse

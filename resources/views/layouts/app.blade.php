@@ -8,10 +8,8 @@
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
@@ -29,9 +27,15 @@
         }
         
         body {
+            margin: 0;
             color: var(--dark-color);
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
+        /* Make the main content grow so footer sits at bottom */
+        .site-main { flex: 1 0 auto; }
         
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Playfair Display', serif;
@@ -61,7 +65,7 @@
             position: relative;
         }
         
-        .navbar-nav .nav-link:after {
+        .navbar-nav .nav-link::before {
             content: '';
             position: absolute;
             bottom: -5px;
@@ -72,25 +76,37 @@
             transition: width 0.3s ease;
         }
 
-        .navbar-nav .nav-link.active:after {
+        .navbar-nav .nav-link.active::before {
             width: 100%;
         }
 
         .navbar-nav .nav-link.active {
             font-weight: 700;
         }
-        
-        .navbar-nav .nav-link:hover:after {
+
+        .navbar-nav .nav-link:hover::before {
             width: 100%;
         }
+
+        .navbar .dropdown-toggle::after {
+            display: inline-block;
+            margin-left: 6px;
+            vertical-align: middle;
+            border-top: 5px solid #fff;
+            border-right: 5px solid transparent;
+            border-left: 5px solid transparent;
+            border-bottom: 0;
+        }
+
+        
         
         /* Hero Section */
         .hero-section {
-            background: linear-gradient(135deg, rgba(26, 95, 122, 0.8) 0%, rgba(15, 61, 82, 0.8) 100%), 
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><pattern id="wave" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse"><path d="M0,60 Q30,30 60,60 T120,60" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/></pattern></defs><rect width="1200" height="600" fill="url(%23wave)"/></svg>');
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)),
+            url("images/backgrounds/hero-bg.jpg");
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
+            background-repeat: no-repeat;
             color: white;
             padding: 120px 0;
             min-height: 600px;
@@ -140,11 +156,32 @@
             background: var(--primary-color);
             border-color: var(--primary-color);
         }
+
+        .btn-sm{
+            background: #00bcd4;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-sm:hover{
+            background: #0097a7;
+            color: white;
+            transform: translateX(5px);  
+        }
+
         
         /* Featured Rooms Section */
         .featured-section {
             padding: 80px 0;
-            background: #f8f9fa;
+            background: linear-gradient(135deg, rgba(203, 208, 210, 0.8) 0%, rgba(15, 61, 82, 0.8) 100%);
         }
         
         .section-title {
@@ -161,7 +198,7 @@
         
         .section-title p {
             font-size: 1.1rem;
-            color: #7f8c8d;
+            color: #0f1010ff;
             max-width: 500px;
             margin: 0 auto;
         }
@@ -176,47 +213,62 @@
         }
         
         /* Room Cards */
-        .room-card {
-            background: white;
+        .Room-card {
             border: none;
-            border-radius: 15px;
+            border-radius: 0;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
             height: 100%;
+            background: white;
         }
         
-        .room-card:hover {
+        .Room-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
         }
         
-        .room-image {
-            height: 250px;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+        .Room-image {
+            position: relative;
+            height: 280px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            overflow: hidden;
         }
         
-        .room-image i {
-            font-size: 4rem;
-            color: white;
-            opacity: 0.8;
+        .Room-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
         }
         
-        .room-badge {
+        .Room-card:hover .Room-image img {
+            transform: scale(1.1);
+        }
+            
+        .Room-badges {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            background: var(--secondary-color);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 2;
+        }
+        
+        .badge-item {
+            background: white;
+            padding: 8px 15px;
+            border-radius: 25px;
             font-size: 0.85rem;
-            font-weight: 600;
+            font-weight: 500;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         
         .room-content {
@@ -241,13 +293,14 @@
             justify-content: space-between;
             align-items: center;
             padding-top: 15px;
-            border-top: 1px solid #ecf0f1;
+            border-top: 1px solid #3a7483ff;
         }
         
         .price {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            color: var(--secondary-color);
+            color: #2c3e50;
+            font-family: 'Playfair Display', serif;
         }
         
         /* Features Section */
@@ -287,7 +340,7 @@
         
         /* CTA Section */
         .cta-section {
-            background: linear-gradient(135deg, var(--secondary-color) 0%, #d68910 100%);
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #d1850aff 100%);
             padding: 80px 0;
             color: white;
             text-align: center;
@@ -412,7 +465,6 @@
         }
         
         .room-card {
-            /* disable previous keyframe animation to use scroll-reveal */
             animation: none;
             opacity: 0;
             transform: translateY(30px) scale(.98);
@@ -433,11 +485,12 @@
             animation: pulse 0.3s ease-in-out;
         }
 
-        /* Facilities / Cards (tilted look) */
+        /* Facilities Cards */
         .facilities-section {
             padding: 80px 0;
-            background: linear-gradient(180deg, #f6f6f2 0%, #fff 100%);
-            overflow: hidden;
+            background: linear-gradient(135deg,rgba(203, 208, 210, 0.85) 0%,rgba(15, 61, 82, 0.85) 100%);
+            position: relative;
+            z-index: 2;
         }
 
         .facility-row {
@@ -445,90 +498,152 @@
             gap: 2rem;
             justify-content: center;
             flex-wrap: wrap;
-            align-items: end;
+            align-items: flex-end;
         }
 
         .facility-card {
-            width: 200px;
-            height: 260px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-            padding: 24px;
-            transform-origin: center bottom;
-            transition: transform 0.45s cubic-bezier(.2,.9,.2,1), box-shadow 0.25s;
+            width: 210px;
+            height: 270px;
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 26px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             text-align: left;
+
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+
+            transform-origin: center bottom;
+            transition:transform 0.45s cubic-bezier(.2,.9,.2,1), box-shadow 0.3s ease;
+        }
+
+        .facility-card.stand-left {
+            transform: rotate(-6deg);
+        }
+
+        .facility-card.stand-mid {
+            transform: rotate(2deg);
+        }
+
+        .facility-card.stand-right {
+            transform: rotate(6deg);
         }
 
         .facility-card:hover {
-            transform: translateY(-10px) rotate(-2deg) scale(1.03);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+            transform: translateY(-14px) rotate(0deg) scale(1.05);
+            box-shadow: 0 24px 50px rgba(0,0,0,0.18);
         }
 
-        .facility-card.icon-large {
-            font-size: 2.6rem;
+        .facility-card .icon-large {
+            font-size: 2.8rem;
             color: var(--primary-color);
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
-        /* Promo section (arched background) */
+        .facility-card h5 {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .facility-card p {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+
+        /* === KONTEN PROMO === */
         .promo-section {
-            padding: 100px 0 60px;
-            background: #fbf7f0;
             position: relative;
-        }
-
-        .promo-arch {
-            position: absolute;
-            left: 0; right: 0; top: -160px;
-            height: 360px;
-            background: radial-gradient(circle at 50% -10%, #fff 0%, #fff 60%, rgba(243,156,18,0.06) 61%);
-            border-bottom: 8px solid var(--secondary-color);
-            border-bottom-left-radius: 50% 40%;
-            border-bottom-right-radius: 50% 40%;
-            z-index: 0;
+            background: linear-gradient(135deg,rgba(203, 208, 210, 0.85) 0%,rgba(242, 222, 158, 0.85) 100%);
+            padding: 120px 0 80px;
         }
 
         .promo-inner {
             position: relative;
-            z-index: 2;
-            max-width: 1100px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            background: #ffffff;
+            border-radius: 22px;
+            padding: 48px 56px;
             display: flex;
-            gap: 2rem;
-            align-items: center;
+            gap: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+
+        .promo-left {
+            flex: 1;
+        }
+
+        .promo-badge {
+            color: var(--secondary-color);
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            font-size: 0.85rem;
         }
 
         .promo-left h3 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            color: var(--dark-color);
+            font-size: 1.9rem;
+            margin: 12px 0;
+            color: #2c3e50;
         }
 
-        .promo-right .promo-offer {
-            background: var(--secondary-color);
-            padding: 18px 22px;
-            color: white;
-            border-radius: 10px;
+        .promo-left p {
+            color: #555;
+            margin-bottom: 16px;
+        }
+
+        .promo-left ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .promo-left li {
+            margin-bottom: 8px;
+            color: #444;
+        }
+
+        .promo-right {
+            width: 320px;
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 18px;
+        }
+
+        .promo-offer {
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .promo-offer span {
             font-weight: 700;
-            font-size: 1.2rem;
+            color: var(--secondary-color);
         }
 
-        /* Testimonials */
+        .promo-right .btn {
+            align-self: flex-end;
+            padding: 12px 32px;
+            border-radius: 50px;
+        }
+
         .testimonials-section {
             padding: 80px 0;
-            background: #fff;
+            background: linear-gradient(135deg, rgba(203, 208, 210, 0.85) 0%, rgba(15, 61, 82, 0.85) 100%);
+            color: white;
+        }
+
+        .testimonials-section .section-title h2 {
+            color: var(--primary-color);
+        }
+
+        .testimonials-section .section-title p {
+            color: rgba(0, 0, 0, 0.9);
         }
 
         .testimonial-card {
-            background: #f8f9fb;
+            background: #bbc9ccff;
             border-radius: 12px;
             padding: 20px;
             display: flex;
@@ -537,18 +652,86 @@
             box-shadow: 0 8px 24px rgba(0,0,0,0.04);
         }
 
-        .testimonial-card img {
-            width: 96px;
-            height: 96px;
-            border-radius: 10px;
+        .testimonial-img {
+            width: 80px;
+            height: 80px;
             object-fit: cover;
-            flex-shrink: 0;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
+
 
         .testimonial-quote {
             font-style: italic;
             color: #2c3e50;
             line-height: 1.6;
+        }
+        
+        /* ===== Unified Section Gradients & Fade Utilities ===== */
+        :root {
+            /* Extended palette for smooth transitions (derived from existing vars) */
+            --ocean-top: #0f3d52;    /* deep blue */
+            --ocean-mid: #1a5f7a;    /* primary */
+            --sand-top: #f2dec4;     /* light sand */
+            --sand-bottom: #f7efe3;  /* softer sand */
+            --accent-top: #f39c12;   /* warm accent */
+            --accent-bottom: #f0b84a;
+            --section-fade-height: 4.5rem;
+        }
+
+        /* Reusable consistent top->bottom gradients */
+        .section { padding: 60px 0; position: relative; }
+        .section--ocean { background: linear-gradient(to bottom, var(--ocean-top), var(--ocean-mid)); }
+        .section--ocean-soft { background: linear-gradient(to bottom, var(--ocean-mid), rgba(26,95,122,0.6) 60%, var(--sand-top)); }
+        .section--sand { background: linear-gradient(to bottom, var(--sand-top), var(--sand-bottom)); }
+        .section--accent { background: linear-gradient(to bottom, var(--accent-top), var(--accent-bottom)); }
+
+        /* Text contrast helpers */
+        .section--ocean .text-contrast { color: #fff; }
+        .section--sand .text-contrast, .section--accent .text-contrast { color: #2c3e50; }
+
+        /* Subtle fade overlay at section bottom to avoid harsh jumps */
+        .section-fade--bottom { position: relative; overflow: visible; }
+        .section-fade--bottom::after{
+            content: "";
+            pointer-events: none;
+            position: absolute;
+            left: 0; right: 0; bottom: -1px;
+            height: var(--section-fade-height);
+            background: linear-gradient(to bottom,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.25) 45%,
+                rgba(255,255,255,0.50) 65%,
+                rgba(255,255,255,0.85) 100%);
+            mix-blend-mode: normal;
+        }
+
+        /* Darker fade variant (for ocean -> darker sections) */
+        .section-fade--bottom.darker::after{
+            background: linear-gradient(to bottom,
+                rgba(26,95,122,0) 0%,
+                rgba(26,95,122,0.15) 40%,
+                rgba(26,95,122,0.40) 70%,
+                rgba(26,95,122,0.75) 100%);
+        }
+
+        /* Small utility to lengthen blend if needed */
+        .section-fade--long::after{ height: calc(var(--section-fade-height) * 1.6); }
+        
+        /* Navbar transparent on scroll support */
+        .navbar-transition {
+            transition: background-color 300ms ease, box-shadow 300ms ease, backdrop-filter 300ms ease;
+        }
+        .navbar-transparent {
+            background-color: rgba(255,255,255,0.06) !important;
+            box-shadow: none !important;
+            backdrop-filter: blur(6px);
+        }
+        .navbar-solid {
+            /* fallback solid when not transparent to preserve contrast */
+            background: linear-gradient(135deg, var(--primary-color) 0%, #0f3d52 100%) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
         }
     </style>
 </head>
@@ -565,40 +748,113 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}" aria-current="{{ request()->routeIs('home') ? 'page' : '' }}">Beranda</a>
+
+    {{-- Beranda --}}
+    <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
+           href="{{ route('home') }}">Beranda</a>
+    </li>
+
+    {{-- Kamar --}}
+    <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('rooms.*') ? 'active' : '' }}"
+           href="{{ route('rooms.index') }}">Kamar</a>
+    </li>
+
+    {{-- Reservasi --}}
+    <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('reservation.create') ? 'active' : '' }}"
+           href="{{ route('reservation.create') }}">Reservasi</a>
+    </li>
+
+    {{-- Blog --}}
+    <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('blog.*') ? 'active' : '' }}"
+           href="{{ route('blog.index') }}">Blog</a>
+    </li>
+
+    {{-- Tentang (Dropdown) --}}
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle {{ request()->routeIs('about','contact') ? 'active' : '' }}"
+           href="#" role="button" data-bs-toggle="dropdown">
+            Tentang
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <a class="dropdown-item" href="{{ route('about') }}">Tentang Kami</a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ route('contact') }}">Kontak</a>
+            </li>
+        </ul>
+    </li>
+
+    {{-- Check-in --}}
+    <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('checkin.*') ? 'active' : '' }}"
+           href="{{ route('checkin.create') }}">Check-in</a>
+    </li>
+
+    {{-- Akun --}}
+    @auth
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                {{ Auth::user()->name }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                    <a class="dropdown-item" href="{{ route('bookings.index') }}">My Bookings</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{{ route('profile') }}">Profile</a>
+                </li>
+
+                @if(Auth::user()->isAdmin())
+                    <li>
+                        <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Admin</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('rooms.*') ? 'active' : '' }}" href="{{ route('rooms.index') }}" aria-current="{{ request()->routeIs('rooms.*') ? 'page' : '' }}">Kamar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}" aria-current="{{ request()->routeIs('about') ? 'page' : '' }}">Tentang Kami</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}" aria-current="{{ request()->routeIs('contact') ? 'page' : '' }}">Kontak</a>
-                    </li>
-                    @auth
-                        <li class="nav-item">
-                            <form method="POST" action="{{ route('logout') }}" class="d-inline">
-                                @csrf
-                                <button type="submit" class="nav-link btn btn-link text-white">Keluar ({{ Auth::user()->name }})</button>
-                            </form>
-                        </li>
-                    @else
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('login') ? 'active' : '' }}" href="{{ route('login') }}" aria-current="{{ request()->routeIs('login') ? 'page' : '' }}">Masuk</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('register') ? 'active' : '' }}" href="{{ route('register') }}" aria-current="{{ request()->routeIs('register') ? 'page' : '' }}">Daftar</a>
-                        </li>
-                    @endauth
-                </ul>
+                @endif
+
+                <li><hr class="dropdown-divider"></li>
+
+                <li>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button class="dropdown-item" type="submit">Keluar</button>
+                    </form>
+                </li>
+            </ul>
+        </li>
+    @else
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle {{ request()->routeIs('login','register') ? 'active' : '' }}"
+               href="#" data-bs-toggle="dropdown">
+                Akun
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                    <a class="dropdown-item" href="{{ route('login') }}">Masuk</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{{ route('register') }}">Daftar</a>
+                </li>
+            </ul>
+        </li>
+    @endauth
+
+</ul>
+
             </div>
         </div>
     </nav>
 
     <!-- Content -->
-    @yield('content')
+    <main class="site-main">
+        @yield('content')
+    </main>
 
     <!-- Footer -->
     <footer>
@@ -608,10 +864,9 @@
                     <h5>Golden Wave Resort</h5>
                     <p>Pengalaman menginap terbaik dengan fasilitas premium dan pemandangan laut yang memukau.</p>
                     <div class="social-links">
-                        <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
-                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.instagram.com/goldenwave_id?igsh=d3k5OWlvOXFxOHlp" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://api.whatsapp.com/send/?phone=6288806658440&text&type=phone_number&app_absent=0" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://youtube.com/@rizzalalfa?si=aiMD1aNZO7DQO1jh" title="YouTube"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
@@ -654,7 +909,6 @@
         });
     </script>
     <script>
-        // Reveal .room-card when scrolled into view with staggered delay
         document.addEventListener('DOMContentLoaded', function () {
             const cards = Array.from(document.querySelectorAll('.room-card'));
             if (!cards.length) return;
@@ -674,7 +928,6 @@
 
                 cards.forEach(c => obs.observe(c));
             } else {
-                // fallback: reveal all
                 cards.forEach((c, i) => {
                     c.style.transitionDelay = (i * 100) + 'ms';
                     c.classList.add('in-view');
@@ -682,6 +935,74 @@
             }
         });
     </script>
+    <script>
+        // Toggle navbar transparency on scroll
+        document.addEventListener('DOMContentLoaded', function () {
+            const navbar = document.querySelector('.navbar');
+            if (!navbar) return;
+            navbar.classList.add('navbar-transition');
+
+            const setState = () => {
+                const y = window.scrollY || window.pageYOffset;
+                // when user scrolls down at least 30px, make navbar transparent
+                if (y > 30) {
+                    navbar.classList.add('navbar-transparent');
+                    navbar.classList.remove('navbar-solid');
+                } else {
+                    navbar.classList.remove('navbar-transparent');
+                    navbar.classList.add('navbar-solid');
+                }
+            };
+
+            // initial state
+            setState();
+
+            let ticking = false;
+            window.addEventListener('scroll', function () {
+                if (!ticking) {
+                    window.requestAnimationFrame(function () {
+                        setState();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+        });
+    </script>
+    <!-- Booking success modal -->
+    @if(session('booking_success'))
+        <div class="modal fade" id="bookingSuccessModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Pesanan Berhasil</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ session('booking_success') }}</p>
+                        <p>Silakan cek email Anda untuk detail reservasi dan instruksi selanjutnya. Jika perlu bantuan, hubungi kami di <strong>+62 812 3456 7890</strong>.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{{ route('rooms.index') }}" class="btn btn-secondary">Lihat Kamar Lainnya</a>
+                        @if(session('booking_id'))
+                            <a href="{{ route('bookings.show', session('booking_id')) }}" class="btn btn-outline-primary">Lihat Detail Reservasi</a>
+                        @endif
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var modalEl = document.getElementById('bookingSuccessModal');
+                if (modalEl) {
+                    var modal = new bootstrap.Modal(modalEl);
+                    modal.show();
+                }
+            });
+        </script>
+    @endif
+
     @stack('scripts')
 </body>
 </html>

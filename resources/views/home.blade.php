@@ -19,9 +19,6 @@
                 </div>
             </div>
             <div class="col-lg-5" style="animation: slideInRight 0.8s ease-out 0.3s both;">
-                <div style="text-align: center;">
-                    <i class="fas fa-umbrella-beach" style="font-size: 8rem; color: rgba(255,255,255,0.2); animation: pulse 3s ease-in-out infinite;"></i>
-                </div>
             </div>
         </div>
     </div>
@@ -38,23 +35,34 @@
         <div class="row">
             @forelse($featured_rooms as $room)
                 <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="room-card">
-                        <div class="room-image">
-                            <i class="fas fa-bed"></i>
-                            @if($room->price < 600000)
-                                <span class="room-badge">Budget</span>
-                            @elseif($room->price < 900000)
-                                <span class="room-badge">Standard</span>
-                            @else
-                                <span class="room-badge">Premium</span>
-                            @endif
+                    <div class="Room-card">
+                        <div class="Room-image" style="position:relative; height:220px; overflow:hidden; background:#f5f5f5;">
+                            <img src="{{ asset($room->main_image ?? 'images/rooms/placeholder.jpg') }}" alt="{{ $room->name ?? 'Kamar' }}" style="width:100%; height:100%; object-fit:cover; display:block;" />
+
+                            <div class="Room-badges" style="position:absolute; top:16px; left:16px; right:16px; display:flex; justify-content:space-between; z-index:2;">
+                                @php $rp = $room->price ?? 0; @endphp
+                                <span class="Badge-item" style="background:white; padding:6px 12px; border-radius:20px;text-align:center;display:flex;align-items:center;justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,0.12);">
+                                    @if($rp < 600000)
+                                        Economy
+                                    @elseif($rp < 900000)
+                                        Standard
+                                    @else
+                                        Luxury
+                                    @endif
+                                </span>
+
+                                <span class="Badge-item" style="background:white; padding:6px 12px; border-radius:20px;text-align:center;display:flex;align-items:center;justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,0.12);">
+                                    <i class="fas fa-ruler"></i> {{ $room->size ?? '900 Sqft' }}
+                                </span>
+                            </div>
                         </div>
+
                         <div class="room-content">
                             <h3>{{ $room->name ?? 'Kamar Standar' }}</h3>
                             <p>{{ Str::limit($room->description ?? 'Kamar yang nyaman dengan fasilitas lengkap', 100) }}</p>
                             <div class="room-footer">
                                 <div class="price">Rp {{ number_format($room->price ?? 600000, 0, ',', '.') }}</div>
-                                <a href="{{ route('rooms.show', $room->id ?? '#') }}" class="btn btn-sm btn-primary">
+                                <a href="{{ route('rooms.show', $room->id ?? '#') }}" class="btn btn-sm">
                                     Lihat Detail <i class="fas fa-arrow-right ms-2"></i>
                                 </a>
                             </div>
@@ -95,7 +103,9 @@
 <section class="features-section">
     <div class="container">
         <div class="section-title" style="margin-bottom: 60px">
-            <h2 style="color: white; margin-bottom: 1rem;">Mengapa Memilih Kami?</h2>
+            <h2 style="color: white; margin-bottom: 1rem;">
+                Mengapa Memilih Kami?
+            </h2>
         </div>
 
         <div class="row">
@@ -105,7 +115,7 @@
                         <i class="fas fa-star"></i>
                     </div>
                     <h3>Fasilitas Premium</h3>
-                    <p>Nikmati berbagai fasilitas modern dan lengkap untuk kenyamanan maksimal Anda</p>
+                    <p>Nikmati berbagai fasilitas modern dan lengkap untuk kenyamanan Anda</p>
                 </div>
             </div>
 
@@ -151,25 +161,25 @@
         </div>
 
         <div class="facility-row">
-            <div class="facility-card" style="transform: rotate(-6deg);">
+            <div class="facility-card stand-left">
                 <div class="icon-large"><i class="fas fa-wifi"></i></div>
                 <h5>WiFi Gratis</h5>
                 <p>Akses internet cepat di seluruh area hotel untuk bekerja maupun berlibur.</p>
             </div>
 
-            <div class="facility-card" style="transform: rotate(3deg);">
+            <div class="facility-card stand-mid">
                 <div class="icon-large"><i class="fas fa-swimmer"></i></div>
                 <h5>Piscina & Kolam</h5>
                 <p>Kolam renang outdoor dengan pemandangan laut dan area santai keluarga.</p>
             </div>
 
-            <div class="facility-card" style="transform: rotate(-2deg);">
+            <div class="facility-card tilt-left">
                 <div class="icon-large"><i class="fas fa-utensils"></i></div>
                 <h5>Restoran & Bar</h5>
                 <p>Restoran menyajikan masakan lokal dan internasional, dengan bar untuk bersantai.</p>
             </div>
 
-            <div class="facility-card" style="transform: rotate(5deg);">
+            <div class="facility-card stand-right">
                 <div class="icon-large"><i class="fas fa-spa"></i></div>
                 <h5>Spa & Wellness</h5>
                 <p>Perawatan spa profesional untuk relaksasi dan peremajaan.</p>
@@ -180,24 +190,33 @@
 
 <!-- Promo Natal / Akhir Tahun -->
 <section class="promo-section">
-    <div class="promo-arch" aria-hidden="true"></div>
     <div class="promo-inner container">
         <div class="promo-left">
-            <small style="color: var(--secondary-color); font-weight:600; letter-spacing:1px;">PROMO AKHIR TAHUN</small>
+            <small class="promo-badge">PROMO AKHIR TAHUN</small>
             <h3>Diskon Spesial Natal 25% Untuk Menginap 2 Malam</h3>
-            <p>Nikmati liburan Natal bersama keluarga dengan paket eksklusif termasuk sarapan dan akses kolam privat.</p>
+            <p>
+                Nikmati liburan Natal bersama keluarga dengan paket eksklusif
+                termasuk sarapan dan akses kolam privat.
+            </p>
             <ul>
-                <li>Diskon 25% untuk periode 20 Des - 31 Des</li>
+                <li>Diskon 25% untuk periode 20 Des – 31 Des</li>
                 <li>Early check-in & late checkout (tergantung ketersediaan)</li>
                 <li>Gratis sarapan untuk 2 orang</li>
             </ul>
         </div>
-        <div class="promo-right ms-auto text-end">
-            <div class="promo-offer">Hemat hingga 25% — Gunakan kode: NATAL25</div>
-            <div style="margin-top:12px;"><a href="{{ route('rooms.index') }}" class="btn btn-primary btn-lg mt-3">Pesan Sekarang</a></div>
+
+        <div class="promo-right">
+            <div class="promo-offer">
+                Hemat hingga <strong>25%</strong><br>
+                Gunakan kode: <span>NATAL25</span>
+            </div>
+            <a href="{{ route('rooms.index') }}" class="btn btn-primary btn-lg">
+                Pesan Sekarang
+            </a>
         </div>
     </div>
 </section>
+
 
 <!-- Testimonials -->
 <section class="testimonials-section">
@@ -210,20 +229,20 @@
         <div class="row g-4">
             <div class="col-md-6">
                 <div class="testimonial-card">
-                    <img src="https://via.placeholder.com/120" alt="Tamu 1">
+                    <img src="{{ asset('images/profil/bahlil.png') }}" alt="Tamu 1" class="testimonial-img" onerror="this.onerror=null;this.src='{{ asset('images/placeholder.png') }}'">
                     <div>
                         <p class="testimonial-quote">"Pelayanan ramah, kamar bersih, dan pemandangan yang menakjubkan — kami pasti kembali!"</p>
-                        <p class="mb-0"><strong>Anna S.</strong> — Pasangan</p>
+                        <p class="mb-0"><strong class="testimonial-name">Bahlil S.</strong> — Pasangan</p>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="testimonial-card">
-                    <img src="https://via.placeholder.com/120" alt="Tamu 2">
+                    <img src="{{ asset('images/profil/owi.png') }}" alt="Tamu 2" class="testimonial-img" onerror="this.onerror=null;this.src='{{ asset('images/placeholder.png') }}'">
                     <div>
                         <p class="testimonial-quote">"Anak-anak sangat suka kolam dan area bermain. Makanan juga enak dan variatif."</p>
-                        <p class="mb-0"><strong>Rudi K.</strong> — Keluarga</p>
+                        <p class="mb-0"><strong class="testimonial-name">Mas Owi.</strong> — Keluarga</p>
                     </div>
                 </div>
             </div>
