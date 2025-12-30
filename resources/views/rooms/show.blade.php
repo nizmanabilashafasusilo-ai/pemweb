@@ -233,7 +233,7 @@
         <div class="col-lg-8">
             <!-- Room Image -->
             <div class="room-image-gallery">
-                @if(isset($room->main_image) && $room->main_image)
+                    @if(isset($room->main_image) && $room->main_image)
                     @php
                         $img = $room->main_image;
                         if (preg_match('/^https?:\/\//', $img)) {
@@ -241,7 +241,7 @@
                         } elseif (preg_match('/^(storage\/|images\/|\/)/', $img)) {
                             $url = asset($img);
                         } else {
-                            $url = asset('storage/' . $img);
+                            $url = \Illuminate\Support\Facades\Storage::url($img);
                         }
                     @endphp
                     <img src="{{ $url }}" alt="{{ $room->name }}">

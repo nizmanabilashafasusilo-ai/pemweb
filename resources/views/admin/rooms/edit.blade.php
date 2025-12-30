@@ -37,8 +37,8 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Quantity</label>
-                                <input type="number" name="quantity" class="form-control" value="{{ old('quantity', $room->quantity ?? 1) }}" min="1">
+                                <label class="form-label">Capacity</label>
+                                <input type="number" name="capacity" class="form-control" value="{{ old('capacity', $room->capacity) }}">
                             </div>
                             <div class="col-md-6 mb-3"></div>
                         </div>
@@ -52,7 +52,7 @@
                                     } elseif (preg_match('/^(storage\/|images\/|\/)/', $img)) {
                                         $url = asset($img);
                                     } else {
-                                        $url = asset('storage/' . $img);
+                                        $url = \Illuminate\Support\Facades\Storage::url($img);
                                     }
                                 @endphp
                                 <div class="mb-2">

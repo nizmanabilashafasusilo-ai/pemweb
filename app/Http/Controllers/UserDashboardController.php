@@ -41,7 +41,7 @@ class UserDashboardController extends Controller
         // Occupancy estimate for next 30 days (hotel-wide, confirmed bookings)
         $days = 30;
         $startDay = Carbon::now()->startOfDay();
-        $totalRooms = Room::sum('quantity') ?: 0;
+        $totalRooms = Room::count();
         $totalBookedRoomNights = 0;
 
         for ($d = 0; $d < $days; $d++) {

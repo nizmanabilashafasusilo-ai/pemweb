@@ -23,7 +23,6 @@ class RoomSeeder extends Seeder
                 'description' => 'Kamar nyaman dengan suasana taman tropis yang menenangkan.',
                 'price_per_night' => 450000.00,
                 'max_guests' => 2,
-                'quantity' => 5,
                 'main_image' => 'images/rooms/garden-view-room.jpg',
                 'amenities' => json_encode([
                     'AC', 'TV', 'WiFi',
@@ -39,7 +38,6 @@ class RoomSeeder extends Seeder
                 'description' => 'Kamar dengan pemandangan laut indah langsung dari balkon pribadi.',
                 'price_per_night' => 750000.00,
                 'max_guests' => 4,
-                'quantity' => 2,
                 'main_image' => 'images/rooms/sea-view-room.jpg',
                 'amenities' => json_encode([
                     'AC', 'TV', 'WiFi',
@@ -56,7 +54,6 @@ class RoomSeeder extends Seeder
                 'description' => 'Kamar luas dengan fasilitas lengkap untuk kenyamanan ekstra.',
                 'price_per_night' => 900000.00,
                 'max_guests' => 3,
-                'quantity' => 8,
                 'main_image' => 'images/rooms/deluxe-room.jpg',
                 'amenities' => json_encode([
                     'AC', 'TV', 'WiFi',
@@ -73,7 +70,6 @@ class RoomSeeder extends Seeder
                 'description' => 'Kamar eksklusif dengan akses langsung ke pantai dan pemandangan laut.',
                 'price_per_night' => 1100000.00,
                 'max_guests' => 2,
-                'quantity' => 8,
                 'main_image' => 'images/rooms/beachfront-room.jpg',
                 'amenities' => json_encode([
                     'AC', 'TV', 'WiFi',
@@ -91,7 +87,6 @@ class RoomSeeder extends Seeder
                 'description' => 'Hunian eksklusif dengan privasi maksimal untuk pengalaman menginap istimewa.',
                 'price_per_night' => 1500000.00,
                 'max_guests' => 4,
-                'quantity' => 8,
                 'main_image' => 'images/rooms/private-villa.jpg',
                 'amenities' => json_encode([
                     'AC', 'TV', 'WiFi',

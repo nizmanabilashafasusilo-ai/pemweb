@@ -299,17 +299,22 @@
                 <div class="col-md-6 col-lg-4 mb-4">
                     <div class="card room-card">
                         <div class="room-image">
-                            @php
-                                $img = $room->main_image ?? 'images/rooms/placeholder.jpg';
-                                if (preg_match('/^https?:\/\//', $img)) {
-                                    $url = $img;
-                                } elseif (preg_match('/^(storage\/|images\/|\/)/', $img)) {
-                                    $url = asset($img);
+                                @php
+                                $img = $room->main_image ?? null;
+                                if ($img) {
+                                    if (preg_match('/^https?:\/\//', $img)) {
+                                        $url = $img;
+                                    } elseif (preg_match('/^(storage\/|images\/|\/)/', $img)) {
+                                        $url = asset($img);
+                                    } else {
+                                        $url = \Illuminate\Support\Facades\Storage::url($img);
+                                    }
                                 } else {
-                                    $url = asset('storage/' . $img);
+                                    $url = asset('images/rooms/placeholder.jpg');
                                 }
                             @endphp
                             <img src="{{ $url }}" alt="{{ $room->name }}">
+
 
                             <div class="room-badges">
                                 @php $rp = $room->price_per_night ?? $room->price ?? 0; @endphp

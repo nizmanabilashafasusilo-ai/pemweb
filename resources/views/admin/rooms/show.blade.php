@@ -25,7 +25,7 @@
                             } elseif (preg_match('/^(storage\/|images\/|\/)/', $img)) {
                                 $url = asset($img);
                             } else {
-                                $url = asset('storage/' . $img);
+                                $url = \Illuminate\Support\Facades\Storage::url($img);
                             }
                         @endphp
                         <div class="mb-3 text-center">

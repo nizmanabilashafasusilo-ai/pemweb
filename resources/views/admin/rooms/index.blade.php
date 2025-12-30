@@ -34,7 +34,7 @@
                                     } elseif (preg_match('/^(storage\/|images\/|\/)/', $img)) {
                                         $url = asset($img);
                                     } else {
-                                        $url = asset('storage/' . $img);
+                                        $url = \Illuminate\Support\Facades\Storage::url($img);
                                     }
                                 @endphp
                                 <img src="{{ $url }}" alt="thumb" style="max-width:80px;max-height:60px;object-fit:cover;border-radius:6px">

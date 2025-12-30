@@ -46,7 +46,8 @@ class BookingController extends Controller
             ->count();
 
         // Bandingkan dengan total kuantitas kamar
-        if ($bookedCount >= $room->quantity) {
+        $roomQuantity = $room->quantity ?? 1;
+        if ($bookedCount >= $roomQuantity) {
             return back()->with('error', 'Maaf, kamar ' . $room->name . ' tidak tersedia pada tanggal tersebut.');
         }
 
