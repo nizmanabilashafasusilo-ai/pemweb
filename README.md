@@ -54,6 +54,17 @@ Seluruh diagram dan tangkapan layar aplikasi dilampirkan pada laporan proyek.
 
 ## Repository
 
+<<<<<<< HEAD
 Repository ini berisi source code aplikasi Golden Wave beserta struktur project Laravel yang digunakan selama proses pengembangan.
 
 ---
+=======
+Repository ini berisi source code website Golden Wave beserta struktur project Laravel yang digunakan selama proses pengembangan.
+
+---
+## Profil Penyusun
+Website Golden Wave ini disusun oleh kelompok dengan Anggota:
+1.Rizal
+2.Nizma 
+3.Rahayu
+>>>>>>> cc8bff42b4d272b3593aef74b72b2736a4b628f3

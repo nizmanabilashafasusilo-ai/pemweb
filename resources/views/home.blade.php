@@ -34,10 +34,24 @@
 
         <div class="row">
             @forelse($featured_rooms as $room)
-                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="col-md-6 col-lg-4 mb-4">
                     <div class="Room-card">
                         <div class="Room-image" style="position:relative; height:220px; overflow:hidden; background:#f5f5f5;">
-                            <img src="{{ asset($room->main_image ?? 'images/rooms/placeholder.jpg') }}" alt="{{ $room->name ?? 'Kamar' }}" style="width:100%; height:100%; object-fit:cover; display:block;" />
+                            @php
+                                $img = $room->main_image ?? null;
+                                if ($img) {
+                                    if (preg_match('/^https?:\/\//', $img)) {
+                                        $url = $img;
+                                    } elseif (preg_match('/^(storage\/|images\/|\/)/', $img)) {
+                                        $url = asset($img);
+                                    } else {
+                                        $url = \Illuminate\Support\Facades\Storage::url($img);
+                                    }
+                                } else {
+                                    $url = asset('images/rooms/placeholder.jpg');
+                                }
+                            @endphp
+                            <img src="{{ $url }}" alt="{{ $room->name ?? 'Kamar' }}" style="width:100%; height:100%; object-fit:cover; display:block;" />
 
                             <div class="Room-badges" style="position:absolute; top:16px; left:16px; right:16px; display:flex; justify-content:space-between; z-index:2;">
                                 @php $rp = $room->price ?? 0; @endphp

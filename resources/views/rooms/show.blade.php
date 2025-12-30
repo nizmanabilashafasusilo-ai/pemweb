@@ -376,7 +376,17 @@
                         <div class="room-card">
                             <div class="room-image">
                                 @if(isset($otherRoom->main_image) && $otherRoom->main_image)
-                                    <img src="{{ asset($otherRoom->main_image) }}" alt="{{ $otherRoom->name }}">
+                                    @php
+                                        $img = $otherRoom->main_image;
+                                        if (preg_match('/^https?:\/\//', $img)) {
+                                            $url = $img;
+                                        } elseif (preg_match('/^(storage\/|images\/|\/)/', $img)) {
+                                            $url = asset($img);
+                                        } else {
+                                            $url = \Illuminate\Support\Facades\Storage::url($img);
+                                        }
+                                    @endphp
+                                    <img src="{{ $url }}" alt="{{ $otherRoom->name }}">
                                 @else
                                     <i class="fas fa-door-open" style="font-size: 4rem; color: white; opacity: 0.8;"></i>
                                 @endif
